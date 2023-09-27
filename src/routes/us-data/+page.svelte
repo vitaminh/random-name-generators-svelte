@@ -2,9 +2,14 @@
 	/** @type {Array<String>} **/
 	let names;
 
+	import { SITE_URL } from "../../utlities";
+
 	async function getNames() {
+		console.log(`SITE_URL: ${ SITE_URL }`);
 		const response = await fetch('/api/us-data');
+		console.log(response);
 		names = await response.json();
+		console.log(names);
 	}
 </script>
 
