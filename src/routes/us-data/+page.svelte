@@ -2,11 +2,13 @@
 	/** @type {Array<String>} **/
 	let names;
 
-	import { SITE_URL } from "../../utlities";
+	// import { SITE_URL } from "../../utlities";
+	import { PUBLIC_SITE_BASE_URL } from '$env/static/public';
+
 
 	async function getNames() {
 		try {
-			console.log(`SITE_URL: ${ SITE_URL }`);
+			console.log(`SITE_URL: ${ PUBLIC_SITE_BASE_URL }`);
 			const response = await fetch('/api/us-data');
 			console.log(response);
 			names = await response.json();
