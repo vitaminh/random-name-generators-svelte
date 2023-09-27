@@ -13,7 +13,7 @@
 			const response = await fetch('/api/us-data');
 			console.log('names retrieved');
 			console.log(response);
-			names = await response.json();
+			// names = await response.json();
 			console.log('names');
 			console.log(names);
 
