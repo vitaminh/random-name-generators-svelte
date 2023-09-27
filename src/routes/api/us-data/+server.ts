@@ -1,8 +1,9 @@
 import { json } from '@sveltejs/kit';
+import { SITE_URL } from '../../../utlities';
 
 export async function GET() {
 
-	const response = await fetch(`http://localhost:5173/data/names/firstnames/femaleFirstNamesByYear/1880.json`);
+	const response = await fetch(`${SITE_URL}/data/names/firstnames/femaleFirstNamesByYear/1880.json`);
 	return response;
 }
 
