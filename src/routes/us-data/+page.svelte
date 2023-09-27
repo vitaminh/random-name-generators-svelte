@@ -9,13 +9,17 @@
 	async function getNames() {
 		try {
 			console.log(`SITE_URL: ${ PUBLIC_SITE_BASE_URL }`);
+			console.log('fetching names');
 			const response = await fetch('/api/us-data');
+			console.log('names retrieved');
 			console.log(response);
 			names = await response.json();
+			console.log('names');
 			console.log(names);
 
 		} catch (error) {
-			console.log(error);
+			console.log('here is an error:');
+			console.error(error);
 		}
 	}
 </script>
