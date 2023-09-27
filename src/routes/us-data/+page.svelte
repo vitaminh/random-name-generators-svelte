@@ -1,6 +1,4 @@
 <script>
-	export const prerender = true;
-
 	/** @type {Array<String>} **/
 	let names;
 
