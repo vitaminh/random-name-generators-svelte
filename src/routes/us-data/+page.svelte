@@ -5,11 +5,16 @@
 	import { SITE_URL } from "../../utlities";
 
 	async function getNames() {
-		console.log(`SITE_URL: ${ SITE_URL }`);
-		const response = await fetch('/api/us-data');
-		console.log(response);
-		names = await response.json();
-		console.log(names);
+		try {
+			console.log(`SITE_URL: ${ SITE_URL }`);
+			const response = await fetch('/api/us-data');
+			console.log(response);
+			names = await response.json();
+			console.log(names);
+
+		} catch (error) {
+			console.log(error);
+		}
 	}
 </script>
 

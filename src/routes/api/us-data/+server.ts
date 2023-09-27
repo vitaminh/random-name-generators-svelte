@@ -8,6 +8,7 @@ export async function GET() {
 	} catch (error) {
 		console.error(error);
 		console.log(SITE_URL);
+		return error;
 	}
 }
 
