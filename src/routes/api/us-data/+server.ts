@@ -5,7 +5,8 @@ import { PUBLIC_SITE_BASE_URL } from '$env/static/public';
 // /** @type {import('./$types').RequestHandler} */
 export async function GET({ url }) {
 	try {
-		const response = await fetch(`${PUBLIC_SITE_BASE_URL}/data/names/firstnames/femaleFirstNamesByYear/1880.json`);
+		// const response = await fetch(`${PUBLIC_SITE_BASE_URL}/data/names/firstnames/femaleFirstNamesByYear/1880.json`);
+		const response = await fetch(`${PUBLIC_SITE_BASE_URL}/data/testArray.json`);
 		return response;
 	} catch (error: any) {
 		console.error(error);
