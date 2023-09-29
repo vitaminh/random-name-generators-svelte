@@ -2,9 +2,6 @@
 	/** @type {Array<String>} **/
 	let names;
 
-	import { PUBLIC_SITE_BASE_URL } from '$env/static/public';
-
-
 	async function getNames() {
 		try {
 			const response = await fetch('/api/us-data');
