@@ -2,23 +2,14 @@
 	/** @type {Array<String>} **/
 	let names;
 
-	// import { SITE_URL } from "../../utlities";
 	import { PUBLIC_SITE_BASE_URL } from '$env/static/public';
 
 
 	async function getNames() {
 		try {
-			console.log(`SITE_URL: ${ PUBLIC_SITE_BASE_URL }`);
-			console.log('fetching names');
 			const response = await fetch('/api/us-data');
-			console.log('names retrieved');
-			console.log(response);
 			names = await response.json();
-			console.log('names');
-			console.log(names);
-
 		} catch (error) {
-			console.log('here is an error:');
 			console.error(error);
 		}
 	}
