@@ -5,13 +5,10 @@ import { PUBLIC_SITE_BASE_URL } from '$env/static/public';
 /** @type {import('./$types').RequestHandler} */
 export async function GET() {
 	try {
-		// const response = await fetch(`${PUBLIC_SITE_BASE_URL}/data/names/firstnames/femaleFirstNamesByYear/1880.json`);
-		const response: Response = await fetch(`${PUBLIC_SITE_BASE_URL}/data/testArray.json`);
+		const response = await fetch(`${PUBLIC_SITE_BASE_URL}/data/names/firstnames/femaleFirstNamesByYear/1880.json`);
+		// const response: Response = await fetch(`${PUBLIC_SITE_BASE_URL}/data/testArray.json`);
 		const subArray: string[] = await response.json();
-		console.log('subArray:');
-		console.log(subArray);
-		// return response;
-		return json(subArray);
+		return json(subArray.slice(0, 9));
 	} catch (error: any) {
 		console.error(error);
 		console.log(PUBLIC_SITE_BASE_URL);
