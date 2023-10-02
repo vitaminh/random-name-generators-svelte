@@ -1,12 +1,19 @@
-import type { Handle } from '@sveltejs/kit';
+import { error, type Handle } from '@sveltejs/kit';
 
-import { PUBLIC_SITE_HOSTNAME } from '$env/static/public';
+import { PUBLIC_SITE_BASE_URL } from '$env/static/public';
 
 export const handle: Handle = async ({ resolve, event }) => {
-	console.log(event.request);
-	console.log(event.request.headers);
-	event.request.headers.forEach(header => console.log(header));
-	const referer = event.request.headers.get('referer');
-	console.log('referer: ' + referer);
+	console.log(event.route);
+	if (event.url.pathname.startsWith('/api')) {
+		const referer = event.request.headers.get('referer');
+		const fullRoute = PUBLIC_SITE_BASE_URL + event.route.id?.slice(4);
+
+		console.log('fullroute: ' + fullRoute);
+		console.log('referer: ' + referer);
+
+		if (referer != fullRoute) {
+			throw error(401);
+		}
+	};
 	return await resolve(event);
 };
