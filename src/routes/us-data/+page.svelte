@@ -6,11 +6,24 @@
 	let firstNameYear = 0;
 
 	/** @type {Array<{ label: string, value: number }>}**/
-	let firstNameYears = [{ label: 'Random', value: 0 }];
+	const firstNameYearOptions = [{ label: 'Random', value: 0 }];
 
 	for (let i = 2021; i >= 1880; i--) {
-		firstNameYears.push({ label: i.toString(), value: i});
+		firstNameYearOptions.push({ label: i.toString(), value: i});
 	}
+
+	/** @type Number **/
+	let lastNameYear = 0;
+
+	/** @type { Array<number> } **/
+	export const lastNameYears = [2010, 2000, 1990];
+
+	/** @type {Array<{ label: string, value: number }>}**/
+  const lastNameYearOptions = [{ label: 'Random', value: 0 },];
+
+  for (const lastNameYear of lastNameYears) {
+    lastNameYearOptions.push({ label: `${lastNameYear}`, value: lastNameYear });
+  }
 
 	/** @type {Array<String>} **/
 	let names;
@@ -21,7 +34,8 @@
 				method: 'POST',
 				body: JSON.stringify({
 					gender,
-					firstNameYear
+					firstNameYear,
+					lastNameYear
 				})
 			});
 			names = await response.json();
@@ -46,8 +60,18 @@
 	<label for="first-name-year-select">First Names - Choose a Year:</label>
 
 	<select name="first-name-years" id="first-name-year-select" bind:value={ firstNameYear }>
-		{#each firstNameYears as year }
-			<option value={year.value}>{year.label}</option>
+		{#each firstNameYearOptions as yearOption }
+			<option value={yearOption.value}>{yearOption.label}</option>
+		{/each}
+	</select>
+</div>
+
+<div>
+	<label for="last-name-year-select">Last Names - Choose a Year:</label>
+
+	<select name="last-name-years" id="last-name-year-select" bind:value={ lastNameYear }>
+		{#each lastNameYearOptions as yearOption }
+			<option value={yearOption.value}>{yearOption.label}</option>
 		{/each}
 	</select>
 </div>
