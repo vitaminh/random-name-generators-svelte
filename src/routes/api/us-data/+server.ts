@@ -1,7 +1,7 @@
 import { json } from '@sveltejs/kit';
 
 import { PUBLIC_SITE_BASE_URL } from '$env/static/public';
-import { getRandomIntBetweenZeroAndVal, getRandomIntInclusive } from '$lib/utilities.js';
+import { getRandomIntFromZeroToVal, getRandomIntInclusive } from '$lib/utilities.js';
 
 const FIRST_NAMES_BASEPATH: string = `${ PUBLIC_SITE_BASE_URL }/data/names/firstnames`;
 const LAST_NAMES_BASEPATH: string = `${ PUBLIC_SITE_BASE_URL }/data/names/lastnames`;
@@ -30,7 +30,7 @@ export async function POST({ request }) {
 
 		if (!lastNameYear) {
 			const lastNameYears: number[] = [2010, 2000, 1990];
-			lastNameYear = lastNameYears[getRandomIntBetweenZeroAndVal(lastNameYears.length - 1)];
+			lastNameYear = lastNameYears[getRandomIntFromZeroToVal(lastNameYears.length - 1)];
 		}
 
 		lastNamesPath +=`/${ lastNameYear }.json`;
@@ -44,15 +44,15 @@ export async function POST({ request }) {
 		// slice off subarray of top percentage of names requested
 		const firstNameCount: number = 100;
 		const lastNameCount: number = 100;
-		const firstNames: Array<string> = nameData[0].slice(100);
-		const lastNames: Array<string> = nameData[1].slice(100);
+		const firstNames: Array<string> = nameData[0].slice(0, firstNameCount);
+		const lastNames: Array<string> = nameData[1].slice(0, lastNameCount);
 
 		// get random names from the subarrays and combine to create full names
 		const listOfNames: string[] = [];
 
 		for (let i = 0; i < 10; i++) {
-			const firstName: string = firstNames[getRandomIntBetweenZeroAndVal(firstNameCount - 1)];
-			const lastName: string = lastNames[getRandomIntBetweenZeroAndVal(lastNameCount - 1)];
+			const firstName: string = firstNames[getRandomIntFromZeroToVal(firstNames.length - 1)];
+			const lastName: string = lastNames[getRandomIntFromZeroToVal(lastNames.length - 1)];
 			listOfNames.push(`${ firstName } ${ lastName }`);
 		}
 

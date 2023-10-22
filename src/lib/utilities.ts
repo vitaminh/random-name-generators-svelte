@@ -1,11 +1,11 @@
 // Generate random array index between 0 (inclusive) and max (inclusive) value
-export const getRandomIntBetweenZeroAndVal = (maxVal: number): number => {
+export const getRandomIntFromZeroToVal = (maxVal: number): number => {
 	const max: number = Math.floor(maxVal);
 	return Math.floor(Math.random() * (max + 1));
 };
 
 export const getRandomBool = (): boolean => {
-	const coinFlip = getRandomIntBetweenZeroAndVal(1);
+	const coinFlip = getRandomIntFromZeroToVal(1);
 	return coinFlip == 1;
 }
 
