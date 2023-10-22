@@ -41,14 +41,24 @@ export async function POST({ request }) {
 		const nameResponse: Response[] = await Promise.all([firstNameResponse, lastNameResponse]);
 		const nameData: Array<string[]> = await Promise.all([nameResponse[0].json(), nameResponse[1].json()]);
 
-		// return arrays of names
-		const result: string[] = [];
+		// slice off subarray of top percentage of names requested
+		const firstNameCount: number = 100;
+		const lastNameCount: number = 100;
+		const firstNames: Array<string> = nameData[0].slice(100);
+		const lastNames: Array<string> = nameData[1].slice(100);
+
+		// get random names from the subarrays and combine to create full names
+		const listOfNames: string[] = [];
 
 		for (let i = 0; i < 10; i++) {
-			result.push(`${nameData[0][i]} ${ nameData[1][i] }`);
+			const firstName: string = firstNames[getRandomIntBetweenZeroAndVal(firstNameCount - 1)];
+			const lastName: string = lastNames[getRandomIntBetweenZeroAndVal(lastNameCount - 1)];
+			listOfNames.push(`${ firstName } ${ lastName }`);
 		}
 
-		return json(result);
+		// return arrays of names
+		// TODO: create response object that inclues list of names and generation stats (total # of names, etc.)
+		return json(listOfNames);
 	} catch (error: any) {
 		console.error(error);
 		return error;
