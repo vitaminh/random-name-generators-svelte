@@ -1,4 +1,6 @@
 <script>
+	/** TODO: Add SkeletonUI Components **/
+	/** TODO: Install TailwindCSS **/
 	let /** @type { String } **/ gender = 'MALE';
 
 	/** @type {Array<{ label: string, value: number }>}**/

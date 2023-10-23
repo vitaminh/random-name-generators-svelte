@@ -14,5 +14,8 @@ export const handle: Handle = async ({ resolve, event }) => {
 		}
 	};
 
-	return await resolve(event);
+	const response: Response = await resolve(event);
+	response.headers.set('X-Frame-Options', 'DENY');
+	return response;
+	// return await resolve(event);
 };
