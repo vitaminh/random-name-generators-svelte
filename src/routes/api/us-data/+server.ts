@@ -3,62 +3,69 @@ import { json } from '@sveltejs/kit';
 import { PUBLIC_SITE_BASE_URL } from '$env/static/public';
 import { getRandomIntFromZeroToVal, getRandomIntInclusive } from '$lib/utilities.js';
 
-const FIRST_NAMES_BASEPATH: string = `${ PUBLIC_SITE_BASE_URL }/data/names/firstnames`;
-const LAST_NAMES_BASEPATH: string = `${ PUBLIC_SITE_BASE_URL }/data/names/lastnames`;
-
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request }) {
 	try {
 		// process incoming payload
-		let { gender, firstNameYear, lastNameYear } = await request.json();
+		let { gender, firstNameYear, firstNameCount, lastNameYear, lastNameCount } = await request.json();
 
-		let firstNamesPath: string;
-		let lastNamesPath: string = LAST_NAMES_BASEPATH;
+		let firstNamesPath: string = `${PUBLIC_SITE_BASE_URL}/data/names/firstnames`;
+		let lastNamesPath: string = `${PUBLIC_SITE_BASE_URL}/data/names/lastnames`;
 
 		// get name arrays based on payload parameters
-		if (gender == 'MALE') {
-			firstNamesPath = FIRST_NAMES_BASEPATH + '/maleFirstNamesByYear';
-		} else {
-			firstNamesPath = FIRST_NAMES_BASEPATH + '/femaleFirstNamesByYear';
-		}
+		firstNamesPath += gender == 'MALE' ? '/maleFirstNamesByYear' : '/femaleFirstNamesByYear';
 
 		if (!firstNameYear) {
 			firstNameYear = getRandomIntInclusive(1880, 2021);
 		}
 
-		firstNamesPath+=`/${ firstNameYear }.json`;
+		firstNamesPath += `/${firstNameYear}.json`;
 
 		if (!lastNameYear) {
-			const lastNameYears: number[] = [2010, 2000, 1990];
+			const lastNameYears: Array<number> = [2010, 2000, 1990];
 			lastNameYear = lastNameYears[getRandomIntFromZeroToVal(lastNameYears.length - 1)];
 		}
 
-		lastNamesPath +=`/${ lastNameYear }.json`;
+		lastNamesPath += `/${lastNameYear}.json`;
 
-		const firstNameResponse: Promise<Response> = fetch(`${ firstNamesPath }`);
-		const lastNameResponse: Promise<Response> = fetch(`${ lastNamesPath }`);
+		const firstNameResponse: Promise<Response> = fetch(`${firstNamesPath}`);
+		const lastNameResponse: Promise<Response> = fetch(`${lastNamesPath}`);
 
-		const nameResponse: Response[] = await Promise.all([firstNameResponse, lastNameResponse]);
+		const nameResponse: Array<Response> = await Promise.all([firstNameResponse, lastNameResponse]);
 		const nameData: Array<string[]> = await Promise.all([nameResponse[0].json(), nameResponse[1].json()]);
 
-		// slice off subarray of top percentage of names requested
-		const firstNameCount: number = 100;
-		const lastNameCount: number = 100;
+		// slice off subarray of top # of names requested
+		if (firstNameCount == 0) {
+			firstNameCount = nameData[0].length;
+		}
+
+		if (lastNameCount == 0) {
+			lastNameCount = nameData[1].length;
+		}
+
 		const firstNames: Array<string> = nameData[0].slice(0, firstNameCount);
 		const lastNames: Array<string> = nameData[1].slice(0, lastNameCount);
 
 		// get random names from the subarrays and combine to create full names
-		const listOfNames: string[] = [];
+		const maxFirstNameIndex = firstNames.length - 1;
+		const maxLastNameIndex = lastNames.length - 1;
+		const listOfNames: Array<string> = [];
 
 		for (let i = 0; i < 10; i++) {
-			const firstName: string = firstNames[getRandomIntFromZeroToVal(firstNames.length - 1)];
-			const lastName: string = lastNames[getRandomIntFromZeroToVal(lastNames.length - 1)];
-			listOfNames.push(`${ firstName } ${ lastName }`);
+			const firstName: string = firstNames[getRandomIntFromZeroToVal(maxFirstNameIndex)];
+			const lastName: string = lastNames[getRandomIntFromZeroToVal(maxLastNameIndex)];
+			listOfNames.push(`${firstName} ${lastName}`);
 		}
 
-		// return arrays of names
-		// TODO: create response object that inclues list of names and generation stats (total # of names, etc.)
-		return json(listOfNames);
+		return json({
+			generatedFirstNameYear: firstNameYear,
+			generatedLastNameYear: lastNameYear,
+			firstNameTotalCount: nameData[0].length,
+			generatedFirstNameCount: firstNameCount,
+			lastNameTotalCount: nameData[1].length,
+			generatedLastNameCount: lastNameCount,
+			listOfNames
+		});
 	} catch (error: any) {
 		console.error(error);
 		return error;
