@@ -1,6 +1,7 @@
 <script>
-	/** TODO: Add SkeletonUI Components **/
-	/** TODO: Install TailwindCSS **/
+	import { ProgressRadial } from '@skeletonlabs/skeleton';
+
+	let /** @type { Boolean } **/ fetchingNames = false;
 	let /** @type { String } **/ gender = 'MALE';
 
 	/** @type {Array<{ label: string, value: number }>}**/
@@ -22,8 +23,8 @@
 	}
 
 	/** LAST NAME SELECTION **/
-	let /** @type Number **/ lastNameYear = 0;
-	let /** @type { Number }**/ lastNameCount = 100;
+	let /** @type { Number } **/ lastNameYear = 0;
+	let /** @type { Number } **/ lastNameCount = 100;
 
 	const /** @type { Array<number> } **/ lastNameYears = [2010, 2000, 1990];
 
@@ -44,6 +45,8 @@
 
 	async function getNames() {
 		try {
+			fetchingNames = true;
+
 			const response = await fetch('/api/us-data', {
 				method: 'POST',
 				body: JSON.stringify({
@@ -65,69 +68,84 @@
 			} = await response.json());
 		} catch (error) {
 			console.error(error);
+		} finally {
+			fetchingNames = false;
 		}
 	}
 </script>
 
-<h1>Welcome to US Data page</h1>
+<h1 class="h1">Welcome to US Data page</h1>
 
-<div>
-	<label for="gender-select">Choose a Gender:</label>
+<div class="flex flex-col gap-y-6">
 
-	<select name="genders" id="gender-select" bind:value={gender}>
-		<option value="MALE">Male</option>
-		<option value="FEMALE">Female</option>
-	</select>
+	<div>
+		<label class="label" for="gender-select">Choose a Gender:</label>
+
+		<select class="select" name="genders" id="gender-select" bind:value={gender}>
+			<option value="MALE">Male</option>
+			<option value="FEMALE">Female</option>
+		</select>
+	</div>
+
+	<div>
+		<label class="label" for="first-name-year-select">First Names - Choose a Year:</label>
+
+		<select class="select" name="first-name-years" id="first-name-year-select" bind:value={firstNameYear}>
+			{#each firstNameYearOptions as yearOption}
+				<option value={yearOption.value}>{yearOption.label}</option>
+			{/each}
+		</select>
+	</div>
+
+	<div>
+		<label class="label" for="first-name-count-select">First Names - Choose Count:</label>
+
+		<select class="select" name="first-name-count" id="first-name-count-select" bind:value={firstNameCount}>
+			{#each nameCountOptions as countOption}
+				<option value={countOption.value}>{countOption.label}</option>
+			{/each}
+		</select>
+	</div>
+
+	<div>
+		<label class="label" for="last-name-year-select">Last Names - Choose a Year:</label>
+
+		<select class="select" name="last-name-years" id="last-name-year-select" bind:value={lastNameYear}>
+			{#each lastNameYearOptions as yearOption}
+				<option value={yearOption.value}>{yearOption.label}</option>
+			{/each}
+		</select>
+	</div>
+
+	<div>
+		<label class="label" for="last-name-count-select">Last Names - Choose Count:</label>
+
+		<select class="select" name="last-name-count" id="last-name-count-select" bind:value={lastNameCount}>
+			{#each nameCountOptions as countOption}
+				<option value={countOption.value}>{countOption.label}</option>
+			{/each}
+		</select>
+	</div>
+
+	<button type="button" class="btn variant-filled" on:click={getNames}>Get Names</button>
+
+	{#if fetchingNames}
+		<ProgressRadial />
+	{/if}
+
+	{#if listOfNames !== undefined && !fetchingNames}
+		<ul class="list">
+			{#each listOfNames as name}
+				<li>{name}</li>
+			{/each}
+		</ul>
+		<ul class="list">
+			<li>First Name Year: { generatedFirstNameYear }</li>
+			<li>First Names: Top { generatedFirstNameCount } out of { firstNameTotalCount }</li>
+			<li>Last Name Year: { generatedLastNameYear }</li>
+			<li>Last Names: Top { generatedLastNameCount } out of { lastNameTotalCount }</li>
+		</ul>
+	{/if}
+
 </div>
 
-<div>
-	<label for="first-name-year-select">First Names - Choose a Year:</label>
-
-	<select name="first-name-years" id="first-name-year-select" bind:value={firstNameYear}>
-		{#each firstNameYearOptions as yearOption}
-			<option value={yearOption.value}>{yearOption.label}</option>
-		{/each}
-	</select>
-</div>
-
-<div>
-	<label for="first-name-count-select">First Names - Choose Count:</label>
-
-	<select name="first-name-count" id="first-name-count-select" bind:value={firstNameCount}>
-		{#each nameCountOptions as countOption}
-			<option value={countOption.value}>{countOption.label}</option>
-		{/each}
-	</select>
-</div>
-
-<div>
-	<label for="last-name-year-select">Last Names - Choose a Year:</label>
-
-	<select name="last-name-years" id="last-name-year-select" bind:value={lastNameYear}>
-		{#each lastNameYearOptions as yearOption}
-			<option value={yearOption.value}>{yearOption.label}</option>
-		{/each}
-	</select>
-</div>
-
-<div>
-	<label for="last-name-count-select">Last Names - Choose Count:</label>
-
-	<select name="last-name-count" id="last-name-count-select" bind:value={lastNameCount}>
-		{#each nameCountOptions as countOption}
-			<option value={countOption.value}>{countOption.label}</option>
-		{/each}
-	</select>
-</div>
-
-<button on:click={getNames}>Get Names</button>
-
-{#if listOfNames !== undefined}
-	{#each listOfNames as name}
-		<p>{name}</p>
-	{/each}
-	<p>First Name Year: { generatedFirstNameYear }</p>
-	<p>First Names: Top { generatedFirstNameCount } out of { firstNameTotalCount }</p>
-	<p>Last Name Year: { generatedLastNameYear }</p>
-	<p>Last Names: Top { generatedLastNameCount } out of { lastNameTotalCount }</p>
-{/if}
