@@ -6,7 +6,7 @@
 
 	/** @type {Array<{ label: string, value: number }>}**/
 	const nameCountOptions = [
-		{ label: 'Top 100 ', value: 100 },
+		{ label: 'Top 100', value: 100 },
 		{ label: 'Top 1000', value: 1000 },
 		{ label: 'All', value: 0 }
 	];
@@ -76,76 +76,116 @@
 
 <h1 class="h1">Welcome to US Data page</h1>
 
-<div class="flex flex-col gap-y-6">
+<div class="flex flex-col gap-y-6 gap-x-6">
+	<div class="flex gap-y-6 gap-x-6">
+		<div class="flex flex-col gap-y-6 card p-4 w-1/3">
+			<div>
+				<label class="label" for="gender-select">Gender:</label>
 
-	<div>
-		<label class="label" for="gender-select">Choose a Gender:</label>
+				<select class="select" name="genders" id="gender-select" bind:value={gender}>
+					<option value="MALE">Male</option>
+					<option value="FEMALE">Female</option>
+				</select>
+			</div>
 
-		<select class="select" name="genders" id="gender-select" bind:value={gender}>
-			<option value="MALE">Male</option>
-			<option value="FEMALE">Female</option>
-		</select>
+			<div>
+				<label class="label" for="first-name-year-select">First Name Year:</label>
+
+				<select
+					class="select"
+					name="first-name-years"
+					id="first-name-year-select"
+					bind:value={firstNameYear}
+				>
+					{#each firstNameYearOptions as yearOption}
+						<option value={yearOption.value}>{yearOption.label}</option>
+					{/each}
+				</select>
+			</div>
+
+			<div>
+				<label class="label" for="first-name-count-select">First Names - Choose Count:</label>
+
+				<select
+					class="select"
+					name="first-name-count"
+					id="first-name-count-select"
+					bind:value={firstNameCount}
+				>
+					{#each nameCountOptions as countOption}
+						<option value={countOption.value}>{countOption.label}</option>
+					{/each}
+				</select>
+			</div>
+
+			<div>
+				<label class="label" for="last-name-year-select">Last Name Year:</label>
+
+				<select
+					class="select"
+					name="last-name-years"
+					id="last-name-year-select"
+					bind:value={lastNameYear}
+				>
+					{#each lastNameYearOptions as yearOption}
+						<option value={yearOption.value}>{yearOption.label}</option>
+					{/each}
+				</select>
+			</div>
+
+			<div>
+				<label class="label" for="last-name-count-select">Last Names - Choose Count:</label>
+
+				<select
+					class="select"
+					name="last-name-count"
+					id="last-name-count-select"
+					bind:value={lastNameCount}
+				>
+					{#each nameCountOptions as countOption}
+						<option value={countOption.value}>{countOption.label}</option>
+					{/each}
+				</select>
+			</div>
+
+			<button type="button" class="btn variant-filled" on:click={getNames}>Generate Names</button>
+		</div>
+
+		<div class="flex flex-col justify-around card p-4 w-1/3">
+			{#if fetchingNames}
+				<div class="self-center">
+					<ProgressRadial />
+				</div>
+			{/if}
+
+			{#if listOfNames !== undefined && !fetchingNames}
+				<ul class="list">
+					{#each listOfNames as name}
+						<li>{name}</li>
+					{/each}
+				</ul>
+				<ul class="list">
+					<li><strong>First Name Year</strong>: {generatedFirstNameYear}</li>
+					<li>
+						<strong>First Names</strong>: Top {generatedFirstNameCount} out of {firstNameTotalCount}
+					</li>
+					<li><strong>Last Name Year</strong>: {generatedLastNameYear}</li>
+					<li>
+						<strong>Last Names</strong>: Top {generatedLastNameCount} out of {lastNameTotalCount}
+					</li>
+				</ul>
+			{/if}
+		</div>
 	</div>
 
-	<div>
-		<label class="label" for="first-name-year-select">First Names - Choose a Year:</label>
-
-		<select class="select" name="first-name-years" id="first-name-year-select" bind:value={firstNameYear}>
-			{#each firstNameYearOptions as yearOption}
-				<option value={yearOption.value}>{yearOption.label}</option>
-			{/each}
-		</select>
+	<div class="w-2/3">
+		<details>
+			<summary class="pb-4">About this Random Name Generator</summary>
+			Names are generated from data collected by the U.S. Government. First names are provided using
+			baby naming data from the
+			<a class="anchor" href="https://www.ssa.gov/data/">Social Security Administration</a>
+			while last names are generated using surname frequency data collected by the
+			<a class="anchor" href="https://www.census.gov/">US Census Bureau</a>.
+		</details>
 	</div>
-
-	<div>
-		<label class="label" for="first-name-count-select">First Names - Choose Count:</label>
-
-		<select class="select" name="first-name-count" id="first-name-count-select" bind:value={firstNameCount}>
-			{#each nameCountOptions as countOption}
-				<option value={countOption.value}>{countOption.label}</option>
-			{/each}
-		</select>
-	</div>
-
-	<div>
-		<label class="label" for="last-name-year-select">Last Names - Choose a Year:</label>
-
-		<select class="select" name="last-name-years" id="last-name-year-select" bind:value={lastNameYear}>
-			{#each lastNameYearOptions as yearOption}
-				<option value={yearOption.value}>{yearOption.label}</option>
-			{/each}
-		</select>
-	</div>
-
-	<div>
-		<label class="label" for="last-name-count-select">Last Names - Choose Count:</label>
-
-		<select class="select" name="last-name-count" id="last-name-count-select" bind:value={lastNameCount}>
-			{#each nameCountOptions as countOption}
-				<option value={countOption.value}>{countOption.label}</option>
-			{/each}
-		</select>
-	</div>
-
-	<button type="button" class="btn variant-filled" on:click={getNames}>Get Names</button>
-
-	{#if fetchingNames}
-		<ProgressRadial />
-	{/if}
-
-	{#if listOfNames !== undefined && !fetchingNames}
-		<ul class="list">
-			{#each listOfNames as name}
-				<li>{name}</li>
-			{/each}
-		</ul>
-		<ul class="list">
-			<li>First Name Year: { generatedFirstNameYear }</li>
-			<li>First Names: Top { generatedFirstNameCount } out of { firstNameTotalCount }</li>
-			<li>Last Name Year: { generatedLastNameYear }</li>
-			<li>Last Names: Top { generatedLastNameCount } out of { lastNameTotalCount }</li>
-		</ul>
-	{/if}
-
 </div>
-
