@@ -3,6 +3,12 @@ import { json } from '@sveltejs/kit';
 import { PUBLIC_SITE_BASE_URL } from '$env/static/public';
 import { getRandomIntFromZeroToVal, getRandomIntInclusive } from '$lib/utilities.js';
 
+const nameCountLabels: any = {
+	0: 'All',
+	100: 'Top 100',
+	1000: 'Top 1000'
+}
+
 /** @type {import('./$types').RequestHandler} */
 export async function POST({ request }) {
 	try {
@@ -61,9 +67,9 @@ export async function POST({ request }) {
 			generatedFirstNameYear: firstNameYear,
 			generatedLastNameYear: lastNameYear,
 			firstNameTotalCount: nameData[0].length,
-			generatedFirstNameCount: firstNameCount,
+			generatedFirstNameCount: nameCountLabels[firstNameCount],
 			lastNameTotalCount: nameData[1].length,
-			generatedLastNameCount: lastNameCount,
+			generatedLastNameCount: nameCountLabels[lastNameCount],
 			listOfNames
 		});
 	} catch (error: any) {

@@ -16,7 +16,7 @@
 	let /** @type { Number }**/ firstNameCount = 100;
 
 	/** @type {Array<{ label: string, value: number }>}**/
-	const firstNameYearOptions = [{ label: 'Random', value: 0 }];
+	const firstNameYearOptions = [{ label: 'Random Year', value: 0 }];
 
 	for (let i = 2021; i >= 1880; i--) {
 		firstNameYearOptions.push({ label: i.toString(), value: i });
@@ -29,7 +29,7 @@
 	const /** @type { Array<number> } **/ lastNameYears = [2010, 2000, 1990];
 
 	/** @type {Array<{ label: string, value: number }>}**/
-	const lastNameYearOptions = [{ label: 'Random', value: 0 }];
+	const lastNameYearOptions = [{ label: 'Random Year', value: 0 }];
 
 	for (const lastNameYear of lastNameYears) {
 		lastNameYearOptions.push({ label: `${lastNameYear}`, value: lastNameYear });
@@ -78,21 +78,34 @@
 
 <div class="flex flex-col gap-y-6 gap-x-6">
 	<div class="flex gap-y-6 gap-x-6">
-		<div class="flex flex-col gap-y-6 card p-4 w-1/3">
+		<div class="flex flex-col gap-y-4 card p-4 w-1/3">
 			<div>
-				<label class="label" for="gender-select">Gender:</label>
+				<h4 class="h4 pb-2"><span class="font-bold">Gender</span></h4>
 
-				<select class="select" name="genders" id="gender-select" bind:value={gender}>
+				<select class="select w-auto" name="genders" id="gender-select" bind:value={gender}>
 					<option value="MALE">Male</option>
 					<option value="FEMALE">Female</option>
 				</select>
 			</div>
 
-			<div>
-				<label class="label" for="first-name-year-select">First Name Year:</label>
+			<h4 class="h4"><span class="font-bold">Pick First Names from</span></h4>
+
+			<div class="flex gap-x-4">
+				<select
+					class="select w-auto"
+					name="first-name-count"
+					id="first-name-count-select"
+					bind:value={firstNameCount}
+				>
+					{#each nameCountOptions as countOption}
+						<option value={countOption.value}>{countOption.label}</option>
+					{/each}
+				</select>
+
+				<p class="self-center">Names from</p>
 
 				<select
-					class="select"
+					class="select w-auto"
 					name="first-name-years"
 					id="first-name-year-select"
 					bind:value={firstNameYear}
@@ -103,47 +116,30 @@
 				</select>
 			</div>
 
-			<div>
-				<label class="label" for="first-name-count-select">First Names - Choose Count:</label>
+			<h4 class="h4"><span class="font-bold">Pick Last Names from</span></h4>
 
+			<div class="flex gap-x-4">
 				<select
-					class="select"
-					name="first-name-count"
-					id="first-name-count-select"
-					bind:value={firstNameCount}
-				>
-					{#each nameCountOptions as countOption}
-						<option value={countOption.value}>{countOption.label}</option>
-					{/each}
-				</select>
-			</div>
-
-			<div>
-				<label class="label" for="last-name-year-select">Last Name Year:</label>
-
-				<select
-					class="select"
-					name="last-name-years"
-					id="last-name-year-select"
-					bind:value={lastNameYear}
-				>
-					{#each lastNameYearOptions as yearOption}
-						<option value={yearOption.value}>{yearOption.label}</option>
-					{/each}
-				</select>
-			</div>
-
-			<div>
-				<label class="label" for="last-name-count-select">Last Names - Choose Count:</label>
-
-				<select
-					class="select"
+					class="select w-auto"
 					name="last-name-count"
 					id="last-name-count-select"
 					bind:value={lastNameCount}
 				>
 					{#each nameCountOptions as countOption}
 						<option value={countOption.value}>{countOption.label}</option>
+					{/each}
+				</select>
+
+				<p class="self-center">Names from</p>
+
+				<select
+					class="select w-auto"
+					name="last-name-years"
+					id="last-name-year-select"
+					bind:value={lastNameYear}
+				>
+					{#each lastNameYearOptions as yearOption}
+						<option value={yearOption.value}>{yearOption.label}</option>
 					{/each}
 				</select>
 			</div>
@@ -164,16 +160,21 @@
 						<li>{name}</li>
 					{/each}
 				</ul>
-				<ul class="list">
-					<li><strong>First Name Year</strong>: {generatedFirstNameYear}</li>
-					<li>
-						<strong>First Names</strong>: Top {generatedFirstNameCount} out of {firstNameTotalCount}
-					</li>
-					<li><strong>Last Name Year</strong>: {generatedLastNameYear}</li>
-					<li>
-						<strong>Last Names</strong>: Top {generatedLastNameCount} out of {lastNameTotalCount}
-					</li>
-				</ul>
+				<p>
+					<span class="font-bold">First Names</span> picked from {#if generatedFirstNameCount}<span
+							class="font-bold">{generatedFirstNameCount}</span
+						>
+						out of
+					{/if}<span class="font-bold">{firstNameTotalCount}</span> names from <span
+						class="font-bold">{generatedFirstNameYear}</span
+					>
+				</p>
+				<p>
+					<span class="font-bold">Last Names</span> picked from {#if generatedLastNameCount}<span class="font-bold">{generatedLastNameCount}</span>
+						out of
+					{/if}<span class="font-bold">{lastNameTotalCount}</span> names from
+					<span class="font-bold">{generatedLastNameYear}</span>
+				</p>
 			{/if}
 		</div>
 	</div>
@@ -182,7 +183,7 @@
 		<details>
 			<summary class="pb-4">About this Random Name Generator</summary>
 			Names are generated from data collected by the U.S. Government. First names are provided using
-			baby naming data from the
+			popular baby name data from the
 			<a class="anchor" href="https://www.ssa.gov/data/">Social Security Administration</a>
 			while last names are generated using surname frequency data collected by the
 			<a class="anchor" href="https://www.census.gov/">US Census Bureau</a>.
