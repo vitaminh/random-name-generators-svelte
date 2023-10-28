@@ -77,18 +77,17 @@
 <h1 class="h1">Welcome to US Data page</h1>
 
 <div class="flex flex-col gap-y-6 gap-x-6">
-	<div class="flex gap-y-6 gap-x-6">
-		<div class="flex flex-col gap-y-4 card p-4 w-1/3">
-			<div>
-				<h4 class="h4 pb-2"><span class="font-bold">Gender</span></h4>
+	<div class="flex gap-y-8 gap-x-6">
+		<div class="flex flex-col gap-y-6 card p-4">
 
-				<select class="select w-auto" name="genders" id="gender-select" bind:value={gender}>
-					<option value="MALE">Male</option>
-					<option value="FEMALE">Female</option>
-				</select>
-			</div>
+			<h5 class="h5"><span class="font-bold">Gender</span></h5>
 
-			<h4 class="h4"><span class="font-bold">Pick First Names from</span></h4>
+			<select class="select w-auto" name="genders" id="gender-select" bind:value={gender}>
+				<option value="MALE">Male</option>
+				<option value="FEMALE">Female</option>
+			</select>
+
+			<h5 class="h5"><span class="font-bold">Pick First Names from</span></h5>
 
 			<div class="flex gap-x-4">
 				<select
@@ -102,7 +101,7 @@
 					{/each}
 				</select>
 
-				<p class="self-center">Names from</p>
+				<p class="self-center">names from</p>
 
 				<select
 					class="select w-auto"
@@ -116,7 +115,7 @@
 				</select>
 			</div>
 
-			<h4 class="h4"><span class="font-bold">Pick Last Names from</span></h4>
+			<h5 class="h5"><span class="font-bold">Pick Last Names from</span></h5>
 
 			<div class="flex gap-x-4">
 				<select
@@ -130,7 +129,7 @@
 					{/each}
 				</select>
 
-				<p class="self-center">Names from</p>
+				<p class="self-center">names from</p>
 
 				<select
 					class="select w-auto"
@@ -147,7 +146,7 @@
 			<button type="button" class="btn variant-filled" on:click={getNames}>Generate Names</button>
 		</div>
 
-		<div class="flex flex-col justify-around card p-4 w-1/3">
+		<div class="flex flex-col justify-around card gap-y-4 p-4 w-1/2">
 			{#if fetchingNames}
 				<div class="self-center">
 					<ProgressRadial />
@@ -160,17 +159,19 @@
 						<li>{name}</li>
 					{/each}
 				</ul>
+				<hr class="!border-t-8" />
 				<p>
 					<span class="font-bold">First Names</span> picked from {#if generatedFirstNameCount}<span
 							class="font-bold">{generatedFirstNameCount}</span
 						>
 						out of
-					{/if}<span class="font-bold">{firstNameTotalCount}</span> names from <span
-						class="font-bold">{generatedFirstNameYear}</span
-					>
+					{/if}<span class="font-bold">{firstNameTotalCount}</span> names from
+					<span class="font-bold">{generatedFirstNameYear}</span>
 				</p>
 				<p>
-					<span class="font-bold">Last Names</span> picked from {#if generatedLastNameCount}<span class="font-bold">{generatedLastNameCount}</span>
+					<span class="font-bold">Last Names</span> picked from {#if generatedLastNameCount}<span
+							class="font-bold">{generatedLastNameCount}</span
+						>
 						out of
 					{/if}<span class="font-bold">{lastNameTotalCount}</span> names from
 					<span class="font-bold">{generatedLastNameYear}</span>
@@ -179,13 +180,14 @@
 		</div>
 	</div>
 
-	<div class="w-2/3">
+	<div class="w-5/6">
 		<details>
 			<summary class="pb-4">About this Random Name Generator</summary>
-			Names are generated from data collected by the U.S. Government. First names are provided using
-			popular baby name data from the
+			Names are generated from data collected by the U.S. Government. First names are generated using
+			the most popular baby names from the selected year based on data from the
 			<a class="anchor" href="https://www.ssa.gov/data/">Social Security Administration</a>
-			while last names are generated using surname frequency data collected by the
+			while last names are generated using surname frequency data (i.e. "how many people reported having
+			this last name during the year of this census?") collected by the
 			<a class="anchor" href="https://www.census.gov/">US Census Bureau</a>.
 		</details>
 	</div>
