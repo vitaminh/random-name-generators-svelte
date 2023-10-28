@@ -18,7 +18,7 @@
 	/** @type {Array<{ label: string, value: number }>}**/
 	const firstNameYearOptions = [{ label: 'Random Year', value: 0 }];
 
-	for (let i = 2021; i >= 1880; i--) {
+	for (let i = 2022; i >= 1880; i--) {
 		firstNameYearOptions.push({ label: i.toString(), value: i });
 	}
 
