@@ -3,7 +3,7 @@ import { json } from '@sveltejs/kit';
 import { PUBLIC_SITE_BASE_URL } from '$env/static/public';
 import { getRandomIntFromZeroToVal, getRandomIntInclusive } from '$lib/utilities.js';
 
-const nameCountLabels: any = {
+const nameCountLabels: { [key:number]: string } = {
 	0: 'All',
 	100: 'Top 100',
 	1000: 'Top 1000'
