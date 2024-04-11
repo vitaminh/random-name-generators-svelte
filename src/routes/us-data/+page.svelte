@@ -74,7 +74,7 @@
 	}
 </script>
 
-<h1 class="h1">Welcome to US Data page</h1>
+<h1 class="h1">Welcome to the US Data page</h1>
 
 <div class="flex flex-col gap-y-6 gap-x-6">
 	<div class="flex gap-y-8 gap-x-6">
