@@ -7,6 +7,7 @@
 	/** @type {Array<{ label: string, value: number }>}**/
 	const nameCountOptions = [
 		{ label: 'Top 100', value: 100 },
+		{ label: 'Top 500', value: 500 },
 		{ label: 'Top 1000', value: 1000 },
 		{ label: 'All', value: 0 }
 	];
