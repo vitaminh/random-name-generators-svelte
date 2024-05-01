@@ -6,6 +6,7 @@ import { getRandomIntFromZeroToVal, getRandomIntInclusive } from '$lib/utilities
 const nameCountLabels: { [key:number]: string } = {
 	0: 'All',
 	100: 'Top 100',
+	500: 'Top 500',
 	1000: 'Top 1000'
 }
 
