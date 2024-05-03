@@ -1,38 +1,15 @@
-# create-svelte
+# About this Project
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+Are you a writer who need names for your characters? Why not try out this random name generator I whipped up?
 
-## Creating a project
+Names can currently be generated using US Census and Social Security baby naming data. At some point in the future I'll get around to integrating additional datasets.
 
-If you're seeing this, you've probably already done this step. Congrats!
+Currently deployed at [`https://random-name-generators-svelte.pages.dev/`](https://random-name-generators-svelte.pages.dev/).
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+## Built Using
 
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+- Svelte
+- SvelteKit
+- Tailwind CSS
+- Skeleton UI
 
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
