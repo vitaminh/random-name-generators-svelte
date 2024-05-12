@@ -80,7 +80,6 @@
 <div class="flex flex-col gap-y-6 gap-x-6">
 	<div class="flex gap-y-8 gap-x-6">
 		<div class="flex flex-col gap-y-6 card p-4">
-
 			<h5 class="h5"><span class="font-bold">Gender</span></h5>
 
 			<select class="select w-auto" name="genders" id="gender-select" bind:value={gender}>
@@ -182,14 +181,14 @@
 	</div>
 
 	<div class="w-5/6">
-		<details>
-			<summary class="pb-4">About this Random Name Generator</summary>
-			Names are generated from data collected by the U.S. Government. First names are generated using
-			the most popular baby names from the selected year based on data from the
+		<h5 class="h5 pb-4"><span class="font-bold">About this Name Generator</span></h5>
+		<p>
+			Names are generated from data collected by the U.S. Government. First names are generated
+			using the most popular baby names from the selected year based on data from the
 			<a class="anchor" href="https://www.ssa.gov/data/">Social Security Administration</a>
 			while last names are generated using surname frequency data (i.e. "how many people reported having
 			this last name during the year of this census?") collected by the
 			<a class="anchor" href="https://www.census.gov/">US Census Bureau</a>.
-		</details>
+		</p>
 	</div>
 </div>
